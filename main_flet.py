@@ -29,17 +29,19 @@ class GuessingGameView:
             self._page.update()
 
     def _on_guess(self, _: ft.ControlEvent):
-        if self._guess_observer:
-            if self._input_field.value is None:
-                return
+        if not self._guess_observer:
+            return
 
-            try:
-                guess = int(self._input_field.value)
-                self._guess_observer.handle_guess(guess)
-            except ValueError:
-                pass
+        if self._input_field.value is None:
+            return
 
-            self._input_field.focus()
+        try:
+            guess = int(self._input_field.value)
+            self._guess_observer.handle_guess(guess)
+        except ValueError:
+            pass
+
+        self._input_field.focus()
 
     def register_guess_observer(self, callback: GuessObserver):
         self._guess_observer = callback
